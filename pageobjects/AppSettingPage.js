@@ -9,18 +9,18 @@ constructor(page){
 
 }
 
+// validate if the app settings page is loaded
 async verifyAppSettingPageloaded(appsettingsname){
    var appsettingheader =  await this.appsettingsHeader.textContent();
    expect.soft(appsettingheader).toEqual(appsettingsname);
 }
 
+// select tables and verify if the table page is loaded 
 async selectTablesPage()
 {
   await this.tables.click();
   var tableheader = await this.appsettingstableheader.textContent();
   expect.soft(tableheader).toEqual("Tables");
- // expect.soft(overallcontexts[i]).toEqual(contextpulled[i]);
-//  var prompt = await this.updatedFinalPrompt.textContent();
 }
 
 }

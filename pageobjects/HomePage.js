@@ -10,6 +10,7 @@ constructor(page)
     
 }
 
+//select required APP from the options
 async selectRequiredAPP(appname) {
     switch(appname) {
     case "Coding Task - VINAYAK":

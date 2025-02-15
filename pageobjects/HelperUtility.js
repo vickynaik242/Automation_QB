@@ -15,8 +15,9 @@ class HelperUtility{
      fs.writeFileSync('cookies.json', JSON.stringify(cookies));
     }
 
+    
     async loadCookies(context){
-        // Load cookies from a file or variable
+    // Load cookies from a file or variable
      const fs = require('fs');
      const cookies = JSON.parse(fs.readFileSync('cookies.json', 'utf-8'));
  

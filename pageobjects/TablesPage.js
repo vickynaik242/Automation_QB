@@ -24,8 +24,10 @@ class TablesPage {
     this.deleteButtonTestTable = page.locator("((//a[text()='Test-Table1'])[3]/../..)//a[@title='Permanently delete this table']");
     this.confirmDeleteTable = page.locator("//input[@id='typeYesField']");
     this.deleteTableButton = page.locator("//button[text()='Delete Table']");
+    this.testTableName = page.locator("//table[@id='appTablesListTable']//a[text()='Test-Table1']");
     }
 
+    // Validate the left panel headers
     async validateLeftPanelHeaders(){
       //  console.log("Expected values are "+expectedLeftPanelHeaders);
       //  const expectedvalues = ['Basics', 'User Interface', 'Advanced Features'];
@@ -36,6 +38,7 @@ class TablesPage {
         }
     }
 
+      // Validate the left panel sub-headers
     async validateLeftPanelSubHeaders(){
         var displayedvalues = await this.leftpanelsubheaders.allTextContents();
         for (let i=0; i < expectedLeftPanelSubHeaders.length; i++) {
@@ -44,27 +47,33 @@ class TablesPage {
         }
     }
 
+    // Click on new table button
     async clickNewTableButton(){
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState('networkidle', { timeout: 5000 });
         await this.newtablebutton.click();
     }
 
+    // select option as design from scratch
     async selectDesignFromScratch(){
         await this.designFromScratchOption.click();
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+        // await this.page.waitForTimeout(3000);
     }
 
+    // verify the table header
     async verifyNewTableHeader() {
         await expect(this.newTableHeader).toHaveText('New table');
 
     }
 
+    // add all the table details
     async enterNewTableDetails() {
         await this.tableNameTextField.fill(expectedTableValues[0]);
         await this.singleRecordTextField.fill(expectedTableValues[1]);
         await this.tableDescriptionTextField.fill(expectedTableValues[2]);
     }
 
+    //click on create table and verify if the API is getting success response
     async createNewTableAndVerifySuccess(){
         const [resp]= await Promise.all([
             this.page.waitForResponse(resp => resp.url().includes('/ui/api-pipe/db') && resp.status() === 200),
@@ -74,16 +83,13 @@ class TablesPage {
            console.log("The Table is created successfully!");
     }
 
+    // click on cancel for adding new fields
     async cancelNewFieldsPopup(){
         await this.cancelButtonNewFieldsPopup.click();
     }
 
+    // verify the table fields are correctly displayed
     async verifyTablefields(){
-   
-   //   const tableFieldValues = this.page.locator("//form[@id='topLevelSettingsForm']/div[1]/div");
-    //      var displayedvalues = await this.tableFieldValues.evaluateAll(fields => {
-    //       return fields.map(field => field.value);
-    //      });
 
           for (let i=1; i < expectedTableValues.length; i++) {
             const value = await this.tableFieldValues.nth(i).inputValue();
@@ -94,17 +100,22 @@ class TablesPage {
 
     }
 
+    // exit the table settings
     async exitTableSettings(){
         await this.exitSettings.click();
 
     }
 
+    // select the created table table1
     async selectTestTable1(){
         await this.testTable1.click();
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForNavigation({ waitUntil: 'networkidle' });
     }
 
-    async deleteCreatedTestTableAndVerify(){
+    // delete the created test table
+    async deleteCreatedTestTableAndVerify(isdisplayed){
+        console.log("The created table is exists? " + isdisplayed);
+        if(isdisplayed) {
         await this.deleteButtonTestTable.click()
         await this.confirmDeleteTable.fill("YES");
 
@@ -113,8 +124,18 @@ class TablesPage {
             //API2 ,
             await this.deleteTableButton.click(), 
            ]);
-           console.log("The Table is deleted successfully!");
-  
+           console.log("The test Table is deleted successfully!");
+        } else {
+            console.log("The test Table cannot be deleted since it is not created"); 
+        }
+    }
+
+    // verify if the created test table exist
+    async verifyIfTestTableExist(){
+     //   await this.page.waitForTimeout(2000);
+        await this.page.waitForNavigation({ waitUntil: 'networkidle' });
+        const isdisplayed = await this.testTableName.isVisible();
+        return isdisplayed;
     }
 
 }

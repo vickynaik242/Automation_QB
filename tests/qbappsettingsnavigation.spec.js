@@ -38,7 +38,6 @@ test('Verify whether user is able to navigate to QB app-settings  -> Table navig
     await tablesPage.validateLeftPanelHeaders();
     await tablesPage.validateLeftPanelSubHeaders();
 
-    await browser.close();
 });
 
 });

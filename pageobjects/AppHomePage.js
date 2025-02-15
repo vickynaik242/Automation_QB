@@ -10,6 +10,7 @@ constructor(page)
 
 }
 
+// Navigate to the APP settings 
 async selectAppSettings()
 {
     await this.appsettings.click();

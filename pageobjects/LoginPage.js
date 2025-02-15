@@ -13,6 +13,7 @@ class LoginPage {
         this.signinbutton = page.locator("//button[contains(text(),'Sign in')]");   
     }
 
+    // Launch the application based on the environment
     async launchURL(environment)
     {
     if(environment == 'DEV'){
@@ -20,6 +21,7 @@ class LoginPage {
     }
     }
 
+    // Login to the application
     async loginMethod(useremail, password)
     {
        // await this.qbsignin.click();
