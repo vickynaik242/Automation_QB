@@ -90,14 +90,12 @@ class TablesPage {
 
     // verify the table fields are correctly displayed
     async verifyTablefields(){
-
           for (let i=1; i < expectedTableValues.length; i++) {
             const value = await this.tableFieldValues.nth(i).inputValue();
             console.log("The values of the table are "+ value);
             expect.soft(value).toEqual(expectedTableValues[i-1]);
             console.log(value + " left panel header matches with " +expectedTableValues[i-1]);
         }
-
     }
 
     // exit the table settings
